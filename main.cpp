@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include <string>
 
 using namespace std;
 
@@ -112,20 +113,76 @@ void dfs_example() {
     g = nullptr;
 }
 
-void number_of_paper_sheets() {
-    Graph* g = new AdjacentListGraph(10);
-    g->insert(0, 1);
-    g->insert(4, 5);
-    g->insert(5, 6);
-    g->insert(6, 7);
-    g->insert(7, 8);
+// Task with paper list section start.
+vector<pair<int, int>> adjacent_vertex_list(pair<int, int> vertex, vector<string> g) {
+    vector<pair<int, int>> res;
+    int i = vertex.first;
+    int j = vertex.second;
 
-    int cur_vertex = 0;
-    dfs(g, cur_vertex);
+    int rows_number = g.size();
+    int columns_number = 0;
+    if (g.size() > 0) {
+        columns_number = g[0].size();
+    }
+
+    if (i < rows_number - 1 && g[i+1][j] == '#') {
+        res.emplace_back(pair(i+1, j));
+    }
+    if (i > 1 && g[i-1][j] == '#') {
+        res.emplace_back(pair(i-1, j));
+    }
+    if (j > 1 && g[i][j-1] == '#') {
+        res.emplace_back(pair(i, j-1));
+    }
+    if (j < columns_number - 1 && g[i][j+1] == '#') {
+        res.emplace_back(pair(i, j+1));
+    }
+
+    return res;
 }
 
+void dfs_for_list(pair<int, int>& vertex, vector<vector<bool>>& visited, vector<string> g) {
+    visited[vertex.first][vertex.second] = true;
+
+    vector<pair<int, int>> adj = adjacent_vertex_list(vertex, g);
+    for (auto i : adj) {
+        if (!visited[i.first][i.second]) {
+            dfs_for_list(i, visited, g);
+        }
+    }
+}
+
+void number_of_paper_sheets() {
+    int rows_number = 5;
+    int columns_number = 10;
+
+    vector<string> paper(rows_number);
+    paper[0] = "##..#####.";
+    paper[1] = ".#.#.#....";
+    paper[2] = "###..##.#.";
+    paper[3] = "..##.....#";
+    paper[4] = ".###.#####";
+
+    vector<vector<bool>> visited(rows_number, vector<bool>(columns_number, false));
+
+    int n_comp = 0;
+
+    for (int i = 0; i < rows_number; i++) {
+        for (int j = 0; j < columns_number; j++) {
+            if (paper[i][j] == '#' && !visited[i][j]) {
+                pair<int, int> cur_vertex(i, j);
+                dfs_for_list(cur_vertex, visited, paper);
+                n_comp++;
+            }
+        }
+    }
+
+    cout << "Number of lists in paper = " << n_comp << endl;
+}
+// Section end.
+
 int main() {
-    dfs_example();
-//    number_of_paper_sheets();
+//    dfs_example();
+    number_of_paper_sheets();
     return 0;
 }
