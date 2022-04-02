@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "AdjacentListGraph.h"
 #include "AdjacentMatrixGraph.h"
+#include "PriorityQueue.h"
 #include <iostream>
 #include <stack>
 #include <queue>
@@ -181,8 +182,28 @@ void number_of_paper_sheets() {
 }
 // Section end.
 
+// Prima section start
+void priority_queue_example() {
+    PriorityQueue queue;
+    queue.push(1);
+    queue.push(8);
+    queue.push(3);
+    queue.push(4);
+    queue.push(5);
+    queue.push(8);
+    queue.push(3);
+    queue.push(4);
+    queue.push(5);
+    queue.print_as_tree();
+
+    queue.pop();
+    queue.print_as_tree();
+}
+// Section end
+
 int main() {
 //    dfs_example();
-    number_of_paper_sheets();
+//    number_of_paper_sheets();
+    priority_queue_example();
     return 0;
 }
