@@ -185,19 +185,19 @@ void number_of_paper_sheets() {
 // Prima section start
 void priority_queue_example() {
     PriorityQueue queue;
-    queue.push(1);
-    queue.push(8);
-    queue.push(3);
-    queue.push(4);
+    queue.push(12);
+    queue.push(11);
+    queue.push(13);
     queue.push(5);
-    queue.push(8);
-    queue.push(3);
-    queue.push(4);
-    queue.push(5);
-    queue.print_as_tree();
+    queue.push(6);
+    queue.push(7);
+    queue.push(70);
+    queue.push(34);
+    queue.push(90);
+    queue.print_as_array();
 
-    queue.pop();
-    queue.print_as_tree();
+    queue.sort();
+    queue.print_as_array();
 }
 // Section end
 

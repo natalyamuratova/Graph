@@ -7,7 +7,7 @@ private:
     vector<int> elements;
 
     void shift_up(int);
-    void shift_down(int);
+    void shift_down(int, int);
 public:
     PriorityQueue();
     ~PriorityQueue();
@@ -17,6 +17,7 @@ public:
     void pop();
     int top();
     void clear();
+    void sort();
 
     void print_as_array();
     void print_as_tree();

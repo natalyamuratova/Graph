@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
-#include <iterator>
 
 using std::swap;
 using std::string;
@@ -35,11 +34,18 @@ void PriorityQueue::pop() {
 
     elements[0] = elements.back();
     elements.pop_back();
-    shift_down(0);
+    shift_down(0, size());
 }
 
 void PriorityQueue::clear() {
     elements.clear();
+}
+
+void PriorityQueue::sort() {
+    for (int i = size() - 1; i >= 0; i--) {
+        swap(elements[0], elements[i]);
+        shift_down(0, i);
+    }
 }
 
 void PriorityQueue::print_as_array() {
@@ -82,16 +88,23 @@ void PriorityQueue::shift_up(int current) {
     }
 }
 
-void PriorityQueue::shift_down(int current) {
-    int left = 2 * current + 1;
-    int right = 2 * current + 2;
+void PriorityQueue::shift_down(int current, int n) {
+    int largest = current;
+    int l = 2 * current + 1;
+    int r = 2 * current + 2;
 
-    int total = size();
-    while (left < total && right < total && (elements[left] > elements[current] || elements[right] > elements[current])) {
-        int max_ind = elements[left] > elements[current] ? left : right;
-        swap(elements[current], elements[max_ind]);
-        current = max_ind;
-        left = 2 * current + 1;
-        right = 2 * current + 2;
+    while ((l < n && elements[largest] < elements[l]) || (r < n && elements[largest] < elements[r])) {
+        if (l < n && elements[l] > elements[largest])
+            largest = l;
+
+        if (r < n && elements[r] > elements[largest])
+            largest = r;
+
+        if (largest != current) {
+            swap(elements[current], elements[largest]);
+            current = largest;
+            l = 2 * current + 1;
+            r = 2 * current + 2;
+        }
     }
 }
