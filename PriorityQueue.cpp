@@ -59,8 +59,8 @@ void PriorityQueue::print_as_tree() {
     int i = 0;
     int k = 1;
     int heap_size = size();
-    while(i < heap_size) {
-        while((i < k) && (i < heap_size)) {
+    while (i < heap_size) {
+        while ((i < k) && (i < heap_size)) {
             cout << elements[i] << " ";
             i++;
         }

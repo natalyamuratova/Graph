@@ -1,11 +1,13 @@
-#include "Graph.h"
-#include "AdjacentListGraph.h"
-#include "AdjacentMatrixGraph.h"
-#include "PriorityQueue.h"
 #include <iostream>
 #include <stack>
 #include <queue>
 #include <string>
+#include "Graph.h"
+#include "AdjacentListGraph.h"
+#include "AdjacentMatrixGraph.h"
+#include "PriorityQueue.h"
+#include "WeightedGraph.h"
+#include "AdjacentListWeightedGraph.h"
 
 using namespace std;
 
@@ -194,16 +196,84 @@ void priority_queue_example() {
     queue.push(70);
     queue.push(34);
     queue.push(90);
-    queue.print_as_array();
+    queue.print_as_tree();
 
     queue.sort();
-    queue.print_as_array();
+    queue.print_as_tree();
 }
+
+WeightedGraph* buildWeightedGraph() {
+    WeightedGraph* g = new AdjacentListWeightedGraph(6);
+    g->insert(0, 1, 6);
+    g->insert(0, 2, 1);
+    g->insert(0, 3, 5);
+
+    g->insert(1, 2, 5);
+    g->insert(1, 4, 3);
+
+    g->insert(2, 3, 5);
+    g->insert(2, 4, 6);
+    g->insert(2, 5, 4);
+
+    g->insert(3, 5, 2);
+
+    g->insert(4, 5, 6);
+
+    return g;
+}
+
+typedef pair<int, int> iPair;
+
+struct ComparePairs {
+    bool operator()(iPair const& p1, iPair const& p2) {
+        return p1.second > p2.second;
+    }
+};
+
+// The main function that constructs Minimum Spanning Tree (MST) using Prim's algorithm
+void primMST(WeightedGraph* g) {
+    int V = g->vertex_count();
+
+    int mst_weight = 0;
+
+    vector<bool> used(V, false);
+    priority_queue<iPair, vector<iPair>, ComparePairs> q;
+
+    int cur_vertex = 0;
+    q.push({cur_vertex, 0});
+
+    while (!q.empty()) {
+        iPair c = q.top();
+        q.pop();
+
+        int v = c.first, dst = c.second;
+
+        if (!used[v]) {
+            used[v] = true;
+            mst_weight += dst;
+
+            set<iPair> adj = g->adjacent_vertex(v);
+            for (auto e : adj) {
+                int u = e.first, len_vu = e.second;
+                if (!used[u]) {
+                    q.push({u, len_vu});
+                }
+            }
+        }
+    }
+
+    cout << "Minimum spanning tree weight: " << mst_weight << endl;
+}
+
 // Section end
 
 int main() {
 //    dfs_example();
 //    number_of_paper_sheets();
-    priority_queue_example();
+//    priority_queue_example();
+
+    WeightedGraph* g = buildWeightedGraph();
+//    g->print();
+    primMST(g);
     return 0;
 }
