@@ -2,13 +2,13 @@
 #include <stack>
 #include <queue>
 #include <string>
-#include "Graph.h"
-#include "AdjacentListGraph.h"
-#include "AdjacentMatrixGraph.h"
-#include "PriorityQueue.h"
-#include "WeightedGraph.h"
-#include "AdjacentListWeightedGraph.h"
-#include "DisjointSetUnion.h"
+#include "graph/Graph.h"
+#include "graph/AdjacentListGraph.h"
+#include "graph/AdjacentMatrixGraph.h"
+#include "prority_queue/PriorityQueue.h"
+#include "weighted_graph/WeightedGraph.h"
+#include "weighted_graph/AdjacentListWeightedGraph.h"
+#include "dsu/DisjointSetUnion.h"
 
 using namespace std;
 
