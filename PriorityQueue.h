@@ -8,6 +8,7 @@ private:
 
     void shift_up(int);
     void shift_down(int, int);
+    void print_as_tree_inner(int, int);
 public:
     PriorityQueue();
     ~PriorityQueue();
@@ -21,6 +22,7 @@ public:
 
     void print_as_array();
     void print_as_tree();
+    void print_as_tree_iterative();
 
     // getters
     bool is_empty();

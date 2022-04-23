@@ -55,19 +55,36 @@ void PriorityQueue::print_as_array() {
     cout << endl;
 }
 
-void PriorityQueue::print_as_tree() {
-    int i = 0;
-    int k = 1;
-    int heap_size = size();
-    while (i < heap_size) {
-        while ((i < k) && (i < heap_size)) {
-            cout << elements[i] << " ";
-            i++;
-        }
-        cout << endl;
-        k = k * 2 + 1;
+void PriorityQueue::print_as_tree()
+{
+    print_as_tree_inner(0,0);
+}
+
+void PriorityQueue::print_as_tree_inner(int current,int h) {
+    if (current * 2 + 2 < size()) {
+        print_as_tree_inner(current * 2 + 2, h + 3);
     }
-    cout << endl;
+    int count = h;
+    while (count != 0) {
+        cout << ' ';
+        count--;
+    }
+    cout << elements[current] << endl;
+    if (current * 2 + 1 < size()) {
+        print_as_tree_inner(current * 2 + 1, h + 3);
+    }
+}
+
+void PriorityQueue::print_as_tree_iterative() {
+    int proceed_count = 1;
+    int _size = size();
+    for (int i = 0; i < _size; ++i) {
+        if (i == proceed_count) {
+            cout << '\n';
+            proceed_count = proceed_count * 2 + 1;
+        }
+        cout << elements[i] << '\t';
+    }
 }
 
 int PriorityQueue::size() {
