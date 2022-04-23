@@ -8,6 +8,7 @@
 #include "PriorityQueue.h"
 #include "WeightedGraph.h"
 #include "AdjacentListWeightedGraph.h"
+#include "DisjointSetUnion.h"
 
 using namespace std;
 
@@ -265,6 +266,27 @@ void primMST(WeightedGraph* g) {
     cout << "Minimum spanning tree weight: " << mst_weight << endl;
 }
 
+bool compareEdges(Edge& e1, Edge& e2){
+    return e1.wt > e2.wt;
+}
+
+// The main function that constructs Minimum Spanning Tree (MST) using Kruskal's algorithm
+void kruskalMST(WeightedGraph* g) {
+    int mst_weight = 0;
+
+    DisjointSetUnion comp(g->vertex_count());
+
+    vector<Edge> edges = g->get_edges();
+    std::sort(edges.begin(), edges.end(), compareEdges);
+
+    for (auto edge: edges) {
+        if (comp.merge(edge.v1, edge.v2)) {
+            mst_weight += edge.wt;
+        }
+    }
+    cout << "Minimum spanning tree weight: " << mst_weight << endl;
+}
+
 // Section end
 
 int main() {
@@ -275,5 +297,7 @@ int main() {
     WeightedGraph* g = buildWeightedGraph();
 //    g->print();
     primMST(g);
+    kruskalMST(g);
+
     return 0;
 }

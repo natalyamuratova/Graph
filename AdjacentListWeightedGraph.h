@@ -24,4 +24,5 @@ public:
     int edges_count() override;
     set<pair<int, int>> adjacent_vertex(int v) override;
     void print() override;
+    vector<Edge> get_edges();
 };

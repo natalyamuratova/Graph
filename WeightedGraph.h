@@ -1,4 +1,5 @@
 #include <vector>
+#include "Edge.h"
 
 #pragma once
 
@@ -15,4 +16,5 @@ public:
     virtual int edges_count() = 0;
     virtual set<pair<int, int>> adjacent_vertex(int v) = 0;
     virtual void print() = 0;
+    virtual vector<Edge> get_edges() = 0;
 };

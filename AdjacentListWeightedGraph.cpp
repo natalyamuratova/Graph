@@ -85,3 +85,24 @@ void AdjacentListWeightedGraph::print() {
         cout << "\n";
     }
 }
+
+vector<Edge> AdjacentListWeightedGraph::get_edges() {
+    vector<Edge> res;
+    size_t n = g.size();
+    for (int i = 0; i < n; i++) {
+        auto adj_list = g[i];
+        for (auto el: adj_list) {
+            int v = el.first, dst = el.second;
+            Edge ed(i, v, dst);
+            auto ed_it = std::find_if(
+                    res.begin(),
+                    res.end(),
+                    [ed](Edge h) { return (ed.v1 == h.v1 && ed.v2 == h.v2 || ed.v2 == h.v1 && ed.v1 == h.v2) && ed.wt == h.wt; }
+                    );
+            if (ed_it != res.end()) {
+                res.push_back(ed);
+            }
+        }
+    }
+    return res;
+}
